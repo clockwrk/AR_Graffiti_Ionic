@@ -31,14 +31,30 @@ angular.module('starter.controllers', [])
 
 .controller('PictureCtrl', function($ionicPlatform, $scope, $cordovaCamera) {
 
-  //$scope.cordovaObj = $cordovaCamera;
+  $scope.takePicture = function(){
 
-  // $scope.takePicture = function(){
+    $ionicPlatform.ready(function(){
 
-  //   // $scope.imgURI = "got here";
+      var video = document.querySelector("#videoElement");
+ 
+      navigator.getUserMedia =  navigator.getUserMedia || 
+                                navigator.webkitGetUserMedia || 
+                                navigator.mozGetUserMedia || 
+                                navigator.msGetUserMedia || 
+                                navigator.oGetUserMedia;
+ 
+      if (navigator.getUserMedia) {       
+          navigator.getUserMedia({video: true}, handleVideo, videoError);
+      }
+       
+      function handleVideo(stream) {
+          video.src = window.URL.createObjectURL(stream);
+      }
+       
+      function videoError(e) {
+          // do something
+      }
 
-  //   // document.addEventListener("deviceready", function () {
-  //   $ionicPlatform.ready(function(){
 
   //     var options = {
   //       quality: 50,
@@ -63,9 +79,9 @@ angular.module('starter.controllers', [])
   //       $scope.debug = "got here";
   //     })
   //     .catch(console.err)
-  //   })
+    })
 
-  // } /* End of takePicture */
+  } /* End of takePicture */
 
   
 });
